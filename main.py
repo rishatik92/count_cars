@@ -6,6 +6,7 @@ os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
 import cv2
 import matplotlib.pyplot as plt
 import cvlib as cv
+import numpy as np
 from cvlib.object_detection import draw_bbox
 from flask import Flask, flash, request, redirect, url_for
 
@@ -36,7 +37,7 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             # decode the array into an image
-            img = cv2.imdecode(file.read(), cv2.IMREAD_UNCHANGED)
+            img = cv2.imdecode(np.fromstring(file.read(), dtype='uint8'), cv2.IMREAD_UNCHANGED)
             bbox, label, conf = cv.detect_common_objects(img)
             output_image = draw_bbox(img, bbox, label, conf)
             plt.imshow(output_image)

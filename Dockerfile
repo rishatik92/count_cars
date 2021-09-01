@@ -22,3 +22,4 @@ RUN pip3 install ruamel.yaml
 RUN pip3 install opencv-python cvlib matplotlib tensorflow keras
 RUN pip3 install -U "git+git://github.com/lilohuang/PyTurboJPEG.git"
 RUN pip3 install flask
+RUN pip3 install numpy

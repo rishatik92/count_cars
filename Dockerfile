@@ -19,7 +19,5 @@ RUN apt-get -o Acquire::Max-FutureTime=86400 install -y libgl1-mesa-glx
 RUN apt-get -o Acquire::Max-FutureTime=86400 install -y libturbojpeg wget
 
 RUN pip3 install ruamel.yaml
-RUN pip3 install opencv-python cvlib matplotlib tensorflow keras
+RUN pip3 install opencv-python cvlib matplotlib tensorflow keras flask numpy ruamel.yaml
 RUN pip3 install -U "git+git://github.com/lilohuang/PyTurboJPEG.git"
-RUN pip3 install flask
-RUN pip3 install numpy

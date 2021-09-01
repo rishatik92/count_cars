@@ -1,3 +1,8 @@
+import os
+
+# Specify device
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
 import cv2
 import matplotlib.pyplot as plt
 import cvlib as cv

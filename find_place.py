@@ -85,6 +85,7 @@ video_capture = cv2.VideoCapture(VIDEO_SOURCE)
 # Проходимся в цикле по каждому кадру.
 max_i = 2000
 i = 0
+frames_computed = 0
 while video_capture.isOpened():
 
     success, frame = video_capture.read()
@@ -114,7 +115,6 @@ while video_capture.isOpened():
     # Фильтруем результат для получения рамок автомобилей.
     car_boxes = get_car_boxes(r['rois'], r['class_ids'])
 
-    send_message("Cars found in frame of video:")
 
     # Отображаем каждую рамку на кадре.
     for box in car_boxes:
@@ -128,6 +128,7 @@ while video_capture.isOpened():
     # Показываем кадр в чат.
     if i != 10:
         continue
+    send_message(f'{frames_computed=}')
     image = cv2.imencode('.jpeg', frame)[1].tostring()
     send_image(image)
 

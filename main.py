@@ -37,9 +37,15 @@ frames_computed = 0
 while video_capture.isOpened():
 
     success, frame = video_capture.read()
+    i +=1
     if not success:
         break
     bbox, label, conf = cv.detect_common_objects(frame)
+    frames_computed+=1
+    if i !=100:
+        continue
+    if i >= max_i:
+        i = 0
     output_image = draw_bbox(frame, bbox, label, conf)
     plt.imshow(output_image)
     plt.show()
@@ -47,5 +53,6 @@ while video_capture.isOpened():
     plt.savefig(img, format='png')  # save image in file-like object
     img.seek(0)
     send_image(img)
-    send_message(f'''Number of cars in the image is {label.count('car')}''')
+    send_message(f'''Number of cars in the image is {label.count('car')}
+frames_computed = {frames_computed}''')
 

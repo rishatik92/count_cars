@@ -57,15 +57,15 @@ MODEL_DIR = ROOT_DIR / "logs"
 COCO_MODEL_PATH = ROOT_DIR / "mask_rcnn_coco.h5"
 
 # Загружаем датасет COCO при необходимости.
-mrcnn.utils.download_trained_weights(f'{COCO_MODEL_PATH}')
+if not COCO_MODEL_PATH.exists():
+    mrcnn.utils.download_trained_weights(f'{COCO_MODEL_PATH}')
 
 # Директория с изображениями для обработки.
 IMAGE_DIR = ROOT_DIR / "images"
 
 # Видеофайл или камера для обработки — вставьте значение 0, если нужно использовать камеру, а не видеофайл.
 VIDEO_SOURCE = config['video_source']
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior()
+
 # Создаём модель Mask-RCNN в режиме вывода.
 model = MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=MaskRCNNConfig())
 

@@ -120,8 +120,8 @@ while video_capture.isOpened():
 
     bio = BytesIO()
     bio.name = 'image.jpeg'
-    image = cv2.imencode('.jpeg', frame)
-    print(image)
+    image = cv2.imencode('.jpeg', frame)[1].tostring()
+    send_image(image)
     image.save(bio, 'JPEG')
     bio.seek(0)
     send_image(bio)

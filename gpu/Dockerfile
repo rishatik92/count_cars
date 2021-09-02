@@ -36,5 +36,5 @@ RUN pip3 install tqdm
 RUN pip3 install -U "git+git://github.com/lilohuang/PyTurboJPEG.git"
 RUN pip3 install flask
 RUN pip3 install python-telegram-bot
-COPY . /var/www/
+COPY ../ /var/www/
 WORKDIR /var/www/

@@ -12,12 +12,17 @@ from pathlib import Path
 from ruamel import yaml
 
 with open('config.yaml') as cf:
-    config = yaml.load(cf.read())
+    config = yaml.safe_load(cf.read())
 
 
 import telegram
 bot = telegram.Bot(token=config['telegram_bot_tocken'])
 bot.send_message(config['chat_id'], f'hello world!')
+
+def send_message(msg):
+    bot.send_message(config['chat_id'], msg)
+def send_image(image):
+    bot.send_photo(config['chat_id'], image)
 
 
 # Конфигурация, которую будет использовать библиотека Mask-RCNN.
@@ -58,7 +63,7 @@ if not COCO_MODEL_PATH.exists():
 IMAGE_DIR = ROOT_DIR / "images"
 
 # Видеофайл или камера для обработки — вставьте значение 0, если нужно использовать камеру, а не видеофайл.
-VIDEO_SOURCE = "https://rtsp.me/embed/Yn6QEFy7/"
+VIDEO_SOURCE = config['video_source']
 
 # Создаём модель Mask-RCNN в режиме вывода.
 model = MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=MaskRCNNConfig())
@@ -97,11 +102,11 @@ while video_capture.isOpened():
     # Фильтруем результат для получения рамок автомобилей.
     car_boxes = get_car_boxes(r['rois'], r['class_ids'])
 
-    print("Cars found in frame of video:")
+    send_message("Cars found in frame of video:")
 
     # Отображаем каждую рамку на кадре.
     for box in car_boxes:
-        print("Car:", box)
+        send_message("Car:", box)
 
         y1, x1, y2, x2 = box
 
@@ -109,7 +114,7 @@ while video_capture.isOpened():
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
 
     # Показываем кадр на экране.
-    cv2.imshow('Video', frame)
+    send_image(cv2.imencode('png', frame))
 
     # Нажмите 'q', чтобы выйти.
     if cv2.waitKey(1) & 0xFF == ord('q'):

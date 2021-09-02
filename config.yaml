@@ -1,2 +1,3 @@
 telegram_bot_tocken: SECRET_TOCKEN
 chat_id: CHAT_ID
+video_source: 0

@@ -39,7 +39,6 @@ frames_computed = 0
 while video_capture.isOpened():
 
     success, frame = video_capture.read()
-    # Конвертируем изображение из цветовой модели BGR (используется OpenCV) в RGB.
 
     i +=1
     if not success:

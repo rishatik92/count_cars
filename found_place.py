@@ -11,6 +11,7 @@ from mrcnn.model import MaskRCNN
 from pathlib import Path
 from ruamel import yaml
 
+
 with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
@@ -64,7 +65,8 @@ IMAGE_DIR = ROOT_DIR / "images"
 
 # Видеофайл или камера для обработки — вставьте значение 0, если нужно использовать камеру, а не видеофайл.
 VIDEO_SOURCE = config['video_source']
-
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 # Создаём модель Mask-RCNN в режиме вывода.
 model = MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=MaskRCNNConfig())
 

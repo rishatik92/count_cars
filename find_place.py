@@ -115,7 +115,8 @@ while video_capture.isOpened():
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
 
     # Показываем кадр на экране.
-    send_image(cv2.imencode('png', frame))
+    #send_image(cv2.imencode('png', frame))
+    send_image(cv2.imencode('.png', frame))
 
     # Нажмите 'q', чтобы выйти.
     if cv2.waitKey(1) & 0xFF == ord('q'):

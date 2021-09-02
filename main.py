@@ -40,7 +40,7 @@ while video_capture.isOpened():
 
     success, frame = video_capture.read()
     # Конвертируем изображение из цветовой модели BGR (используется OpenCV) в RGB.
-    rgb_image = frame[:, :, ::-1]
+
     i +=1
     if not success:
         break
@@ -51,7 +51,7 @@ while video_capture.isOpened():
     if i != every_print:
         continue
 
-    output_image = draw_bbox(rgb_image, bbox, label, conf)
+    output_image = draw_bbox(frame, bbox, label, conf)
     plt.imshow(output_image)
     plt.show()
     img = io.BytesIO()              # create file-like object in memory to save image without using disk

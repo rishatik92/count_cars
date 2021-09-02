@@ -44,7 +44,7 @@ if not COCO_MODEL_PATH.exists():
 IMAGE_DIR = ROOT_DIR / "images"
 
 # Видеофайл или камера для обработки — вставьте значение 0, если нужно использовать камеру, а не видеофайл.
-VIDEO_SOURCE = 0
+VIDEO_SOURCE = "https://rtsp.me/embed/Yn6QEFy7/"
 
 # Создаём модель Mask-RCNN в режиме вывода.
 model = MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=MaskRCNNConfig())

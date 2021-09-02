@@ -107,7 +107,7 @@ while video_capture.isOpened():
 
     # Отображаем каждую рамку на кадре.
     for box in car_boxes:
-        send_message("Car:", box)
+        send_message(f"Car: f{box}")
 
         y1, x1, y2, x2 = box
 

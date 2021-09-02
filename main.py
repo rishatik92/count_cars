@@ -42,10 +42,11 @@ while video_capture.isOpened():
         break
     bbox, label, conf = cv.detect_common_objects(frame)
     frames_computed+=1
-    if i !=100:
-        continue
     if i >= max_i:
         i = 0
+    if i !=100:
+        continue
+
     output_image = draw_bbox(frame, bbox, label, conf)
     plt.imshow(output_image)
     plt.show()

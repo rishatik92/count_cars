@@ -38,7 +38,7 @@ while video_capture.isOpened():
 
     success, frame = video_capture.read()
 
-    img = cv2.imdecode(np.fromstring(frame.read(), dtype='uint8'), cv2.IMREAD_UNCHANGED)
+    img = cv2.imdecode(frame, cv2.IMREAD_UNCHANGED)
     bbox, label, conf = cv.detect_common_objects(img)
     output_image = draw_bbox(img, bbox, label, conf)
     plt.imshow(output_image)

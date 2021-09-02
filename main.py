@@ -40,7 +40,7 @@ while video_capture.isOpened():
     if not success:
         break
     bbox, label, conf = cv.detect_common_objects(frame)
-    output_image = draw_bbox(img, bbox, label, conf)
+    output_image = draw_bbox(frame, bbox, label, conf)
     plt.imshow(output_image)
     plt.show()
     img = io.BytesIO()              # create file-like object in memory to save image without using disk

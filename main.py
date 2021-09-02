@@ -43,8 +43,8 @@ while video_capture.isOpened():
     i +=1
     if not success:
         break
-    hsv  = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    bbox, label, conf = cv.detect_common_objects(hsv)
+    rgb  = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    bbox, label, conf = cv.detect_common_objects(rgb)
     frames_computed+=1
     if i >= max_i:
         i = 0
@@ -52,7 +52,7 @@ while video_capture.isOpened():
     if i != every_print:
         continue
 
-    output_image = draw_bbox(hsv, bbox, label, conf)
+    output_image = draw_bbox(rgb, bbox, label, conf)
     plt.imshow(output_image)
     plt.show()
     img = io.BytesIO()              # create file-like object in memory to save image without using disk

@@ -10,20 +10,22 @@ import mrcnn.config
 import mrcnn.utils
 from mrcnn.model import MaskRCNN
 from pathlib import Path
+import telegram
 from ruamel import yaml
-
 
 with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
-
-import telegram
 bot = telegram.Bot(token=config['telegram_bot_tocken'])
+
 
 def send_message(msg):
     bot.send_message(config['chat_id'], msg)
+
+
 def send_image(image):
     bot.send_photo(config['chat_id'], image)
+
 
 # Конфигурация, которую будет использовать библиотека Mask-RCNN.
 class MaskRCNNConfig(mrcnn.config.Config):
@@ -32,6 +34,7 @@ class MaskRCNNConfig(mrcnn.config.Config):
     GPU_COUNT = 1
     NUM_CLASSES = 1 + 80  # в датасете COCO находится 80 классов + 1 фоновый класс.
     DETECTION_MIN_CONFIDENCE = 0.6
+
 
 # Фильтруем список результатов распознавания, чтобы остались только автомобили.
 def get_car_boxes(boxes, class_ids):
@@ -43,6 +46,7 @@ def get_car_boxes(boxes, class_ids):
             car_boxes.append(box)
 
     return np.array(car_boxes)
+
 
 # Корневая директория проекта.
 ROOT_DIR = Path(".")

@@ -9,6 +9,15 @@ import mrcnn.config
 import mrcnn.utils
 from mrcnn.model import MaskRCNN
 from pathlib import Path
+from ruamel import yaml
+
+
+config = yaml.load('config.yaml')
+
+
+import telegram
+bot = telegram.Bot(token=config['telegram_bot_tocken'])
+bot.send_message(config['chat_id'], f'hello world!')
 
 
 # Конфигурация, которую будет использовать библиотека Mask-RCNN.

@@ -18,14 +18,13 @@ with open('config.yaml') as cf:
 
 import telegram
 bot = telegram.Bot(token=config['telegram_bot_tocken'])
-bot.send_message(config['chat_id'], f'hello world!')
 
 def send_message(msg):
     bot.send_message(config['chat_id'], msg)
 def send_image(image):
     bot.send_photo(config['chat_id'], image)
 
-
+send_message(f'starting system')
 # Конфигурация, которую будет использовать библиотека Mask-RCNN.
 class MaskRCNNConfig(mrcnn.config.Config):
     NAME = "coco_pretrained_model_config"
@@ -93,7 +92,7 @@ while video_capture.isOpened():
     # Mask R-CNN предполагает, что мы распознаём объекты на множественных изображениях.
     # Мы передали только одно изображение, поэтому извлекаем только первый результат.
     r = results[0]
-
+    send_message(f'r variable content: {r}')
     # Переменная r теперь содержит результаты распознавания:
     # - r['rois'] — ограничивающая рамка для каждого распознанного объекта;
     # - r['class_ids'] — идентификатор (тип) объекта;
@@ -114,21 +113,10 @@ while video_capture.isOpened():
         # Рисуем рамку.
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
 
-    # Показываем кадр на экране.
-    #send_image(cv2.imencode('png', frame))
-    from io import BytesIO
-
-    bio = BytesIO()
-    bio.name = 'image.jpeg'
+    # Показываем кадр в чат.
     image = cv2.imencode('.jpeg', frame)[1].tostring()
     send_image(image)
-    image.save(bio, 'JPEG')
-    bio.seek(0)
-    send_image(bio)
 
-    # Нажмите 'q', чтобы выйти.
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
 
 # Очищаем всё после завершения.
 video_capture.release()

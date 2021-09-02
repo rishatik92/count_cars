@@ -11,20 +11,25 @@ from mrcnn.model import MaskRCNN
 from pathlib import Path
 from ruamel import yaml
 
-
 with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
-
 import telegram
+
 bot = telegram.Bot(token=config['telegram_bot_tocken'])
+
 
 def send_message(msg):
     bot.send_message(config['chat_id'], msg)
+
+
 def send_image(image):
     bot.send_photo(config['chat_id'], image)
 
+
 send_message(f'starting system')
+
+
 # Конфигурация, которую будет использовать библиотека Mask-RCNN.
 class MaskRCNNConfig(mrcnn.config.Config):
     NAME = "coco_pretrained_model_config"
@@ -115,7 +120,6 @@ while video_capture.isOpened():
     # Показываем кадр в чат.
     image = cv2.imencode('.jpeg', frame)[1].tostring()
     send_image(image)
-
 
 # Очищаем всё после завершения.
 video_capture.release()

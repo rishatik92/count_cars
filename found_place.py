@@ -11,8 +11,8 @@ from mrcnn.model import MaskRCNN
 from pathlib import Path
 from ruamel import yaml
 
-
-config = yaml.load('config.yaml')
+with open('config.yaml') as cf:
+    config = yaml.load(cf.read())
 
 
 import telegram

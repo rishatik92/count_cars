@@ -37,4 +37,5 @@ RUN pip3 install -U "git+git://github.com/lilohuang/PyTurboJPEG.git"
 RUN pip3 install flask
 RUN pip3 install python-telegram-bot
 RUN pip3 install -U 'git+https://github.com/matterport/Mask_RCNN.git'
+RUN pip3 install keras==2.0.8
 WORKDIR /var/www/

@@ -66,7 +66,7 @@ IMAGE_DIR = ROOT_DIR / "images"
 # Видеофайл или камера для обработки — вставьте значение 0, если нужно использовать камеру, а не видеофайл.
 VIDEO_SOURCE = config['video_source']
 import tensorflow.compat.v1 as tf
-tf.compat.v1.disable_eager_execution()
+tf.disable_v2_behavior()
 # Создаём модель Mask-RCNN в режиме вывода.
 model = MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=MaskRCNNConfig())
 

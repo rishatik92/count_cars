@@ -19,5 +19,6 @@ RUN sed -i 's/tf.log(/tf.math.log(/g' /usr/local/lib/python3.9/site-packages/mrc
 RUN sed -i 's/tf.sets.set_intersection(/tf.sets.intersection(/g' /usr/local/lib/python3.9/site-packages/mrcnn/model.py
 RUN sed -i 's/tf.sparse_tensor_to_dense(/tf.sparse.to_dense(/g' /usr/local/lib/python3.9/site-packages/mrcnn/model.py
 RUN sed -i 's/tf.to_float()/tf.cast([value], tf.float32)/g' /usr/local/lib/python3.9/site-packages/mrcnn/model.py
+RUN sed -i 's/saving.load_weights_from_hdf5/saving.hdf5_format.load_weights_from_hdf5/g' /usr/local/lib/python3.9/site-packages/mrcnn/model.py
 
 CMD [ "python", "./find_place.py" ]

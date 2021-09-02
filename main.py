@@ -44,7 +44,7 @@ while video_capture.isOpened():
     i +=1
     if not success:
         break
-    bbox, label, conf = cv.detect_common_objects(rgb_image)
+    bbox, label, conf = cv.detect_common_objects(frame)
     frames_computed+=1
     if i >= max_i:
         i = 0

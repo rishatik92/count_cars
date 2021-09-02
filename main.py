@@ -31,7 +31,7 @@ VIDEO_SOURCE = config['video_source']
 video_capture = cv2.VideoCapture(VIDEO_SOURCE)
 
 # Проходимся в цикле по каждому кадру.
-max_i = 2000
+max_i = 300
 i = 0
 frames_computed = 0
 while video_capture.isOpened():

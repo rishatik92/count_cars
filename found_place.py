@@ -57,8 +57,7 @@ MODEL_DIR = ROOT_DIR / "logs"
 COCO_MODEL_PATH = ROOT_DIR / "mask_rcnn_coco.h5"
 
 # Загружаем датасет COCO при необходимости.
-if not COCO_MODEL_PATH.exists():
-    mrcnn.utils.download_trained_weights(f'{COCO_MODEL_PATH}')
+mrcnn.utils.download_trained_weights(f'{COCO_MODEL_PATH}')
 
 # Директория с изображениями для обработки.
 IMAGE_DIR = ROOT_DIR / "images"

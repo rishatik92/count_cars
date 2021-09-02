@@ -31,13 +31,15 @@ VIDEO_SOURCE = config['video_source']
 video_capture = cv2.VideoCapture(VIDEO_SOURCE)
 
 # Проходимся в цикле по каждому кадру.
+max_i = 2000
+i = 0
+frames_computed = 0
 while video_capture.isOpened():
 
     success, frame = video_capture.read()
     if not success:
         break
-    img = cv2.imdecode(frame[:, :, ::-1])
-    bbox, label, conf = cv.detect_common_objects(img)
+    bbox, label, conf = cv.detect_common_objects(frame)
     output_image = draw_bbox(img, bbox, label, conf)
     plt.imshow(output_image)
     plt.show()

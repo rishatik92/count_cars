@@ -44,4 +44,5 @@ RUN sed -i 's/tf.log(/tf.math.log(/g' /usr/local/lib/python3.6/dist-packages/mrc
 RUN sed -i 's/tf.sets.set_intersection(/tf.sets.intersection(/g' /usr/local/lib/python3.6/dist-packages/mrcnn/model.py
 RUN sed -i 's/tf.sparse_tensor_to_dense(/tf.sparse.to_dense(/g' /usr/local/lib/python3.6/dist-packages/mrcnn/model.py
 RUN sed -i 's/tf.to_float()/tf.cast([value], tf.float32)/g' /usr/local/lib/python3.6/dist-packages/mrcnn/model.py
+RUN pip3 install ruamel.yaml
 WORKDIR /var/www/

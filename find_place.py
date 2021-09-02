@@ -116,6 +116,12 @@ while video_capture.isOpened():
 
     # Показываем кадр на экране.
     #send_image(cv2.imencode('png', frame))
+    from io import BytesIO
+
+    bio = BytesIO()
+    bio.name = 'image.jpeg'
+    cv2.imencode('.jpeg', frame).save(bio, 'JPEG')
+    bio.seek(0)
     send_image(cv2.imencode('.png', frame))
 
     # Нажмите 'q', чтобы выйти.

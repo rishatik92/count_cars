@@ -11,6 +11,6 @@ RUN apt-get -o Acquire::Max-FutureTime=86400 install -y libglib2.0 git libgl1-me
 
 RUN pip3 install ruamel.yaml opencv-python cvlib matplotlib tensorflow keras flask numpy ruamel.yaml tqdm seaborn Cython torch torchvision GitPython scikit-image python-telegram-bot tensorflow
 RUN pip3 install -U "git+git://github.com/lilohuang/PyTurboJPEG.git" "git+https://github.com/ria-com/modelhub-client.git" "git+https://github.com/matterport/Mask_RCNN.git"
-
-
+#fix masc_RCNN
+RUN sed -i s/import keras.engine as KE/import keras.engine.topology as KE/g /usr/local/lib/python3.9/site-packages/mrcnn/model.py
 CMD [ "python", "./find_place.py" ]

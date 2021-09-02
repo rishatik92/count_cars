@@ -129,7 +129,7 @@ while video_capture.isOpened():
     # Показываем кадр в чат.
     if i != 10:
         continue
-    send_message(f'{frames_computed=}')
+    send_message(f'frames_computed={frames_computed}')
     image = cv2.imencode('.jpeg', frame)[1].tostring()
     send_image(image)
 

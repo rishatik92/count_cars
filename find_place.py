@@ -122,7 +122,7 @@ while video_capture.isOpened():
     bio.name = 'image.jpeg'
     cv2.imencode('.jpeg', frame).save(bio, 'JPEG')
     bio.seek(0)
-    send_image(cv2.imencode('.png', frame))
+    send_image(bio)
 
     # Нажмите 'q', чтобы выйти.
     if cv2.waitKey(1) & 0xFF == ord('q'):

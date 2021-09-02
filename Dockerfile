@@ -37,6 +37,6 @@ RUN pip3 install -U "git+git://github.com/lilohuang/PyTurboJPEG.git"
 RUN pip3 install flask
 RUN pip3 install python-telegram-bot
 RUN pip3 install ruamel.yaml
-RUN pip3 install -U 'git+https://github.com/akTwelve/Mask_RCNN.git"'
+RUN pip3 install -U 'git+https://github.com/akTwelve/Mask_RCNN.git'
 
 WORKDIR /var/www/

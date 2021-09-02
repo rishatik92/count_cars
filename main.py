@@ -33,6 +33,8 @@ video_capture = cv2.VideoCapture(VIDEO_SOURCE)
 # Проходимся в цикле по каждому кадру.
 max_i = 300
 i = 0
+every_print = 5
+assert every_print < max_i
 frames_computed = 0
 while video_capture.isOpened():
 
@@ -46,7 +48,7 @@ while video_capture.isOpened():
     frames_computed+=1
     if i >= max_i:
         i = 0
-    if i !=100:
+    if i != every_print:
         continue
 
     output_image = draw_bbox(rgb_image, bbox, label, conf)

@@ -103,6 +103,7 @@ every_print = 5
 assert every_print < max_i
 frames_computed = 0
 last_string_num = 0
+font = cv2.FONT_HERSHEY_DUPLEX
 while video_capture.isOpened():
 
     if cam_cleaner.last_frame is None:
@@ -128,7 +129,8 @@ while video_capture.isOpened():
     for box in car_boxes:
         y1, x1, y2, x2 = box
         # Рисуем рамку.
-        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 30)
+        cv2.putText(frame, f"SPACE AVAILABLE!", (10, 150), font, 3.0, (0, 255, 0), 20, cv2.FILLED)
     # Подаём изображение модели Mask R-CNN для получения результата.
 
     frames_computed += 1

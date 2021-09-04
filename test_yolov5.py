@@ -3,7 +3,7 @@ import os
 # Specify device
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
-import cv2, threading
+import cv2, threading, torch
 import cvlib as cv
 from cvlib.object_detection import draw_bbox
 import telegram
@@ -13,7 +13,7 @@ with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
 bot = telegram.Bot(token=config['telegram_bot_tocken'])
-
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 def send_message(msg):
     bot.send_message(config['chat_id'], msg)
@@ -53,7 +53,9 @@ while video_capture.isOpened():
     frame = cam_cleaner.last_frame
 
     i +=1
-    bbox, label, conf = cv.detect_common_objects(frame, model='yolov3')
+
+
+    results = model(frame)
     frames_computed+=1
     debug_str = f'frames_computed: {frames_computed}'
     print(last_string_num * '\r' + debug_str, end='')
@@ -64,14 +66,7 @@ while video_capture.isOpened():
         continue
 
     text = 'On the image: \n'
-    set_label = set(label)
-    summary_vehicle = 0
-    for type_vehicle in set_label:
-        text += f'{type_vehicle}s count: {label.count(type_vehicle)}\n'
-        summary_vehicle += label.count(type_vehicle)
-    text += f'Summary: {summary_vehicle}'
-
-    output_image = draw_bbox(frame, bbox, label, conf)
+    text += f'Results yolov5: {results}'
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
     send_message(f"{text} frames_computed: {frames_computed}")
 

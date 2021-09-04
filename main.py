@@ -44,23 +44,13 @@ while video_capture.isOpened():
     i +=1
     if not success:
         break
-    rgb  = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    bbox, label, conf = cv.detect_common_objects(rgb)
+    bbox, label, conf = cv.detect_common_objects(frame)
     frames_computed+=1
     if i >= max_i:
         i = 0
         print(f'i = {i}, frames_computed{frames_computed}')
     if i != every_print:
         continue
-
-    output_image = draw_bbox(rgb, bbox, label, conf)
-    plt.imshow(output_image)
-    plt.show()
-    img = io.BytesIO()              # create file-like object in memory to save image without using disk
-    plt.savefig(img, format='png')  # save image in file-like object
-    img.seek(0)
-    send_image(img)
-    send_image(cv2.imencode('.jpeg', rgb)[1].tostring())
-    send_message(f'''Number of cars in the image is {label.count('car')}
-frames_computed = {frames_computed}''')
+    send_image(cv2.imencode('.jpeg', frame)[1].tostring())
+    send_message(f"Number of cars in the image is {label.count('car')} frames_computed = {frames_computed}, label is: {label}")
 

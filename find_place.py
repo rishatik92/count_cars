@@ -10,7 +10,7 @@ import mrcnn.utils
 from mrcnn.model import MaskRCNN
 from pathlib import Path
 from ruamel import yaml
-
+from cvlib.object_detection import draw_bbox
 with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
@@ -121,10 +121,9 @@ while video_capture.isOpened():
         y1, x1, y2, x2 = box
         # Рисуем рамку.
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
+        output_image = draw_bbox(frame, box, r['class_ids'], {})
 
     # Показываем кадр в чат.
-    if i != 10:
-        continue
     send_message(f'frames_computed={frames_computed}')
     image = cv2.imencode('.jpeg', frame)[1].tostring()
     send_image(image)

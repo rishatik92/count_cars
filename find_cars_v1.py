@@ -170,9 +170,6 @@ while video_capture.isOpened():
         image = cv2.imencode('.jpeg', frame)[1].tostring()
         send_image(image)
 
-    # Нажмите 'q', чтобы выйти.
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
 
 # Нажмите 'q', чтобы выйти.
 video_capture.release()

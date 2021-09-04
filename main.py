@@ -26,8 +26,7 @@ def send_image(image):
 VIDEO_SOURCE = config['video_source']
 # Загружаем видеофайл, для которого хотим запустить распознавание.
 video_capture = cv2.VideoCapture(VIDEO_SOURCE)
-video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+
 # Проходимся в цикле по каждому кадру.
 max_i = 300
 i = 0
@@ -44,12 +43,11 @@ while video_capture.isOpened():
         break
     bbox, label, conf = cv.detect_common_objects(frame)
     frames_computed+=1
+    debug_str = f'i = {i}, frames_computed{frames_computed},'
+    print(last_string_num * '\r' + debug_str, end='')
+    last_string_num = len(last_string_num)
     if i >= max_i:
         i = 0
-        debug_str = f'i = {i}, frames_computed{frames_computed},'
-        print(last_string_num* '\r' + debug_str, end='')
-        last_string_num = len(last_string_num)
-
     if i != every_print:
         continue
 
@@ -57,7 +55,7 @@ while video_capture.isOpened():
     set_label = set(label)
     summary_vehicle = 0
     for type_vehicle in set_label:
-        text += f'{type_vehicle}s count = {label.count[type_vehicle]}\n'
+        text += f'{type_vehicle}s count = {label.count(type_vehicle)}\n'
         summary_vehicle += label.count[type_vehicle]
     text += f'Summary: {summary_vehicle}'
 

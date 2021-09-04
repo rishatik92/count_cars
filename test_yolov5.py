@@ -68,7 +68,7 @@ while video_capture.isOpened():
 
     text = 'On the image: \n'
     text += f'Results yolov5: {dir(results)}'
-    text += f'Results yolov5: {results.tolist()}'
+    text += f'Results yolov5: {results.names()}'
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
     send_message(f"{text} frames_computed: {frames_computed}")
 

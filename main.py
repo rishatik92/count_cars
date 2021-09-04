@@ -49,8 +49,12 @@ while video_capture.isOpened():
     if i >= max_i:
         i = 0
         print(f'i = {i}, frames_computed{frames_computed}')
+
+    print(f"Number of  in the image is {label.count('car')} frames_computed = {frames_computed}, label is: {label}")
+    print(f"{dir(label)},{type(label)}")
+
     if i != every_print:
         continue
+    output_image = draw_bbox(frame, bbox, label, conf)
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
-    send_message(f"Number of cars in the image is {label.count('car')} frames_computed = {frames_computed}, label is: {label}")
 

@@ -110,7 +110,7 @@ while video_capture.isOpened():
     frame = cam_cleaner.last_frame
 
     i += 1
-
+    results = model.detect([frame], verbose=0)
     # Mask R-CNN предполагает, что мы распознаём объекты на множественных изображениях.
     # Мы передали только одно изображение, поэтому извлекаем только первый результат.
     r = results[0]
@@ -129,7 +129,7 @@ while video_capture.isOpened():
         # Рисуем рамку.
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
     # Подаём изображение модели Mask R-CNN для получения результата.
-    results = model.detect([frame], verbose=0)
+
     frames_computed += 1
     if i >= max_i:
         i = 0

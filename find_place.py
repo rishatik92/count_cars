@@ -50,6 +50,17 @@ def get_car_boxes(boxes, class_ids):
 
     return np.array(car_boxes)
 
+class CameraBufferCleanerThread(threading.Thread):
+    # Камера поставляет фреймы быстрее чем мы их обрабатываем, поэтому будем дропать буфер
+    def __init__(self, camera, name='camera-buffer-cleaner-thread'):
+        self.camera = camera
+        self.last_frame = None
+        super(CameraBufferCleanerThread, self).__init__(name=name)
+        self.start()
+
+    def run(self):
+        while True:
+            ret, self.last_frame = self.camera.read()
 
 # Корневая директория проекта.
 ROOT_DIR = Path(".")
@@ -81,26 +92,29 @@ parked_car_boxes = None
 
 # Загружаем видеофайл, для которого хотим запустить распознавание.
 video_capture = cv2.VideoCapture(VIDEO_SOURCE)
-
+cam_cleaner = CameraBufferCleanerThread(video_capture)
 # Проходимся в цикле по каждому кадру.
-max_i = 2000
+max_i = 300
 i = 0
+every_print = 5
+assert every_print < max_i
 frames_computed = 0
+last_string_num = 0
 while video_capture.isOpened():
 
-    success, frame = video_capture.read()
-
-    if not success:
-        break
+    if cam_cleaner.last_frame is None:
+        continue
+    frame = cam_cleaner.last_frame
 
     i += 1
-    if i == max_i:
-        i = 0
-
 
     # Подаём изображение модели Mask R-CNN для получения результата.
     results = model.detect([frame], verbose=0)
     frames_computed += 1
+    if i >= max_i:
+        i = 0
+    if i != every_print:
+        continue
 
     # Mask R-CNN предполагает, что мы распознаём объекты на множественных изображениях.
     # Мы передали только одно изображение, поэтому извлекаем только первый результат.
@@ -121,10 +135,8 @@ while video_capture.isOpened():
         y1, x1, y2, x2 = box
         # Рисуем рамку.
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
-        output_image = draw_bbox(frame, box, r['class_ids'], {})
-
     # Показываем кадр в чат.
-    send_message(f'frames_computed={frames_computed}')
+    send_message(f'car_boxes = {len(car_boxes)} frames_computed={frames_computed}')
     image = cv2.imencode('.jpeg', frame)[1].tostring()
     send_image(image)
 

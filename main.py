@@ -49,11 +49,9 @@ last_string_num = 0
 while video_capture.isOpened():
     if cam_cleaner.last_frame is None:
         continue
-    success, frame = cam_cleaner.last_frame
+    frame = cam_cleaner.last_frame
 
     i +=1
-    if not success:
-        break
     bbox, label, conf = cv.detect_common_objects(frame)
     frames_computed+=1
     debug_str = f'frames_computed: {frames_computed}, video_capture = {video_capture} , dir {dir(video_capture)}'

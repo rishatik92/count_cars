@@ -71,13 +71,7 @@ while video_capture.isOpened():
     if i != every_print:
         continue
 
-    text = 'On the image: \n'
-    set_label = set(results)
-    summary_vehicle = 0
-    for type_objects in set_label:
-        text += f'{type_objects}s count: {list(results).count(type_objects)}\n'
-        summary_vehicle += list(results).count(type_objects)
-
+    text = f'On the image: {dict(results)}\n'
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
     send_message(f"{text} frames_computed: {frames_computed}")
 

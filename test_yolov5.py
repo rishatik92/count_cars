@@ -71,7 +71,7 @@ while video_capture.isOpened():
     if i != every_print:
         continue
 
-    text = f'On the image: {dict(results)}\n'
+    text = f'On the image: {results.__dict__}\n'
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
     send_message(f"{text} frames_computed: {frames_computed}")
 

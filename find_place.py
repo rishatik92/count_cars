@@ -11,7 +11,7 @@ from mrcnn.model import MaskRCNN
 from pathlib import Path
 from ruamel import yaml
 from cvlib.object_detection import draw_bbox
-
+CAR_BOXES  = [3, 8, 6]
 with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
@@ -38,15 +38,18 @@ class MaskRCNNConfig(mrcnn.config.Config):
 
 
 # Фильтруем список результатов распознавания, чтобы остались только автомобили.
-def get_car_boxes(boxes, class_ids):
-    car_boxes = []
+def get_boxes(boxes, class_ids, boxes_filter):
+    boxes = []
 
     for i, box in enumerate(boxes):
-        # Если найденный объект не автомобиль, то пропускаем его.
-        if class_ids[i] in [3, 8, 6]:
+        # Если найденный объект не входит в фильтр, то пропускаем его.
+        if not boxes_filter:
             car_boxes.append(box)
+        else:
+            if class_ids[i] in boxes_filter:
+                car_boxes.append(box)
 
-    return np.array(car_boxes)
+    return np.array(boxes)
 
 
 class CameraBufferCleanerThread(threading.Thread):
@@ -120,7 +123,7 @@ while video_capture.isOpened():
     # - r['masks'] — маски объектов (что даёт вам их контур).
 
     # Фильтруем результат для получения рамок автомобилей.
-    car_boxes = get_car_boxes(r['rois'], r['class_ids'])
+    car_boxes = get_boxes(r['rois'], r['class_ids'], [])
 
     # Отображаем каждую рамку на кадре.
     for box in car_boxes:

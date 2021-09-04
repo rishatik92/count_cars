@@ -97,11 +97,9 @@ while video_capture.isOpened():
     if i == max_i:
         i = 0
 
-    # Конвертируем изображение из цветовой модели BGR (используется OpenCV) в RGB.
-    rgb_image = frame[:, :, ::-1]
 
     # Подаём изображение модели Mask R-CNN для получения результата.
-    results = model.detect([rgb_image], verbose=0)
+    results = model.detect([frame], verbose=0)
     frames_computed += 1
 
     # Mask R-CNN предполагает, что мы распознаём объекты на множественных изображениях.

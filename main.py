@@ -24,6 +24,7 @@ def send_image(image):
 # Define the thread that will continuously pull frames from the camera
 
 class CameraBufferCleanerThread(threading.Thread):
+    # Камера поставляет фреймы быстрее чем мы их обрабатываем, поэтому будем дропать буфер
     def __init__(self, camera, name='camera-buffer-cleaner-thread'):
         self.camera = camera
         self.last_frame = None
@@ -54,7 +55,7 @@ while video_capture.isOpened():
     i +=1
     bbox, label, conf = cv.detect_common_objects(frame)
     frames_computed+=1
-    debug_str = f'frames_computed: {frames_computed}, video_capture = {video_capture} , dir {dir(video_capture)}'
+    debug_str = f'frames_computed: {frames_computed}'
     print(last_string_num * '\r' + debug_str, end='')
     last_string_num = len(debug_str)
     if i >= max_i:

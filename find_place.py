@@ -11,6 +11,7 @@ from mrcnn.model import MaskRCNN
 from pathlib import Path
 from ruamel import yaml
 from cvlib.object_detection import draw_bbox
+
 with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
@@ -50,6 +51,7 @@ def get_car_boxes(boxes, class_ids):
 
     return np.array(car_boxes)
 
+
 class CameraBufferCleanerThread(threading.Thread):
     # Камера поставляет фреймы быстрее чем мы их обрабатываем, поэтому будем дропать буфер
     def __init__(self, camera, name='camera-buffer-cleaner-thread'):
@@ -61,6 +63,7 @@ class CameraBufferCleanerThread(threading.Thread):
     def run(self):
         while True:
             ret, self.last_frame = self.camera.read()
+
 
 # Корневая директория проекта.
 ROOT_DIR = Path(".")
@@ -108,14 +111,6 @@ while video_capture.isOpened():
 
     i += 1
 
-    # Подаём изображение модели Mask R-CNN для получения результата.
-    results = model.detect([frame], verbose=0)
-    frames_computed += 1
-    if i >= max_i:
-        i = 0
-    if i != every_print:
-        continue
-
     # Mask R-CNN предполагает, что мы распознаём объекты на множественных изображениях.
     # Мы передали только одно изображение, поэтому извлекаем только первый результат.
     r = results[0]
@@ -128,13 +123,19 @@ while video_capture.isOpened():
     # Фильтруем результат для получения рамок автомобилей.
     car_boxes = get_car_boxes(r['rois'], r['class_ids'])
 
-
     # Отображаем каждую рамку на кадре.
     for box in car_boxes:
-
         y1, x1, y2, x2 = box
         # Рисуем рамку.
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
+    # Подаём изображение модели Mask R-CNN для получения результата.
+    results = model.detect([frame], verbose=0)
+    frames_computed += 1
+    if i >= max_i:
+        i = 0
+    if len(car_boxes) == 0:
+        continue
+
     # Показываем кадр в чат.
     send_message(f'car_boxes = {len(car_boxes)} frames_computed={frames_computed}')
     image = cv2.imencode('.jpeg', frame)[1].tostring()

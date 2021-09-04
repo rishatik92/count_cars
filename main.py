@@ -3,12 +3,9 @@ import os
 # Specify device
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
-import cv2, io
-import matplotlib.pyplot as plt
+import cv2
 import cvlib as cv
-import numpy as np
 from cvlib.object_detection import draw_bbox
-from flask import Flask, flash, request, redirect, url_for
 import telegram
 from ruamel import yaml
 
@@ -37,6 +34,7 @@ i = 0
 every_print = 5
 assert every_print < max_i
 frames_computed = 0
+last_string_num = 0
 while video_capture.isOpened():
 
     success, frame = video_capture.read()
@@ -48,13 +46,23 @@ while video_capture.isOpened():
     frames_computed+=1
     if i >= max_i:
         i = 0
-        print(f'i = {i}, frames_computed{frames_computed}')
-
-    print(f"Number of  in the image is {label.count('car')} frames_computed = {frames_computed}, label is: {label}")
-    print(f"{dir(label)},{type(label)}")
+        debug_str = f'i = {i}, frames_computed{frames_computed},'
+        print(last_string_num* '\r' + debug_str, end='')
+        last_string_num = len(last_string_num)
 
     if i != every_print:
         continue
+
+    text = 'On the image: \n'
+    set_label = set(label)
+    summary_vehicle = 0
+    for type_vehicle in set_label:
+        text += f'{type_vehicle}s count = {label.count[type_vehicle]}\n'
+        summary_vehicle += label.count[type_vehicle]
+    text += f'Summary: {summary_vehicle}'
+
     output_image = draw_bbox(frame, bbox, label, conf)
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
+    send_message(f"{text} frames_computed = {frames_computed}")
+
 

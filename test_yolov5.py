@@ -23,9 +23,6 @@ def send_message(msg):
 def send_image(image):
     bot.send_photo(config['chat_id'], image)
 
-
-# Define the thread that will continuously pull frames from the camera
-
 class CameraBufferCleanerThread(threading.Thread):
     # Камера поставляет фреймы быстрее чем мы их обрабатываем, поэтому будем дропать буфер
     def __init__(self, camera, name='camera-buffer-cleaner-thread'):

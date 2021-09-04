@@ -112,7 +112,7 @@ while video_capture.isOpened():
 
     i += 1
     rgb_image = frame[:, :, ::-1]
-    results = model.detect([rgb_image], verbose=3)
+    results = model.detect([rgb_image], verbose=0)
     # Mask R-CNN предполагает, что мы распознаём объекты на множественных изображениях.
     # Мы передали только одно изображение, поэтому извлекаем только первый результат.
     r = results[0]
@@ -134,7 +134,7 @@ while video_capture.isOpened():
     # Подаём изображение модели Mask R-CNN для получения результата.
 
     frames_computed += 1
-    debug_str = f'frames_computed: {frames_computed}'
+    debug_str = f'frames_computed: {frames_computed}. r = {r}'
     print(last_string_num * '\r' + debug_str, end='')
     last_string_num = len(debug_str)
     if i >= max_i:

@@ -55,8 +55,13 @@ while video_capture.isOpened():
     i +=1
 
 
+
     results = model(frame)
     results.render()
+
+
+
+
     frames_computed+=1
     debug_str = f'frames_computed: {frames_computed}'
     print(last_string_num * '\r' + debug_str, end='')
@@ -67,7 +72,12 @@ while video_capture.isOpened():
         continue
 
     text = 'On the image: \n'
-    text += f'Results yolov5: {results.names()}'
+    set_label = set(results.names)
+    summary_vehicle = 0
+    for type_objects in set_label:
+        text += f'{type_objects}s count: {results.names.count(type_objects)}\n'
+        summary_vehicle += results.names.count(type_objects)
+
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
     send_message(f"{text} frames_computed: {frames_computed}")
 

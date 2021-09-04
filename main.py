@@ -43,7 +43,7 @@ while video_capture.isOpened():
         break
     bbox, label, conf = cv.detect_common_objects(frame)
     frames_computed+=1
-    debug_str = f'i = {i}, frames_computed{frames_computed},'
+    debug_str = f'frames_computed: {frames_computed}, video_capture = {video_capture} , dir {dir(video_capture)}'
     print(last_string_num * '\r' + debug_str, end='')
     last_string_num = len(debug_str)
     if i >= max_i:

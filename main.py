@@ -47,6 +47,8 @@ assert every_print < max_i
 frames_computed = 0
 last_string_num = 0
 while video_capture.isOpened():
+    if cam_cleaner.last_frame is None:
+        continue
     success, frame = cam_cleaner.last_frame
 
     i +=1

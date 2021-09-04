@@ -13,7 +13,8 @@ with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
 bot = telegram.Bot(token=config['telegram_bot_tocken'])
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+model = torch.hub.load('ultralytics/yolov5', 'yolov5m')
+
 
 def send_message(msg):
     bot.send_message(config['chat_id'], msg)
@@ -21,6 +22,8 @@ def send_message(msg):
 
 def send_image(image):
     bot.send_photo(config['chat_id'], image)
+
+
 # Define the thread that will continuously pull frames from the camera
 
 class CameraBufferCleanerThread(threading.Thread):
@@ -52,17 +55,12 @@ while video_capture.isOpened():
         continue
     frame = cam_cleaner.last_frame
 
-    i +=1
-
-
+    i += 1
 
     results = model(frame)
     results.render()
 
-
-
-
-    frames_computed+=1
+    frames_computed += 1
     debug_str = f'frames_computed: {frames_computed}'
     print(last_string_num * '\r' + debug_str, end='')
     last_string_num = len(debug_str)
@@ -70,9 +68,13 @@ while video_capture.isOpened():
         i = 0
     if i != every_print:
         continue
-
-    text = f'On the image: {results.__dict__}\n'
+    label = [i[-1] for i in results.pandas().xyxy[0].values.tolist()]
+    text = 'On the image: \n'
+    set_label = set(label)
+    summary_vehicle = 0
+    for type_vehicle in set_label:
+        text += f'{type_vehicle}s count: {label.count(type_vehicle)}\n'
+        summary_vehicle += label.count(type_vehicle)
+    text += f'Summary: {summary_vehicle}'
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
     send_message(f"{text} frames_computed: {frames_computed}")
-
-

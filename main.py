@@ -29,7 +29,8 @@ def send_image(image):
 VIDEO_SOURCE = config['video_source']
 # Загружаем видеофайл, для которого хотим запустить распознавание.
 video_capture = cv2.VideoCapture(VIDEO_SOURCE)
-
+video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 # Проходимся в цикле по каждому кадру.
 max_i = 300
 i = 0

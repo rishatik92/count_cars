@@ -45,7 +45,7 @@ while video_capture.isOpened():
     frames_computed+=1
     debug_str = f'i = {i}, frames_computed{frames_computed},'
     print(last_string_num * '\r' + debug_str, end='')
-    last_string_num = len(last_string_num)
+    last_string_num = len(debug_str)
     if i >= max_i:
         i = 0
     if i != every_print:

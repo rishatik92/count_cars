@@ -131,6 +131,9 @@ while video_capture.isOpened():
     # Подаём изображение модели Mask R-CNN для получения результата.
 
     frames_computed += 1
+    debug_str = f'frames_computed: {frames_computed}'
+    print(last_string_num * '\r' + debug_str, end='')
+    last_string_num = len(debug_str)
     if i >= max_i:
         i = 0
     if len(car_boxes) == 0:

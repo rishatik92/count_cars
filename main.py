@@ -56,7 +56,7 @@ while video_capture.isOpened():
     summary_vehicle = 0
     for type_vehicle in set_label:
         text += f'{type_vehicle}s count = {label.count(type_vehicle)}\n'
-        summary_vehicle += label.count[type_vehicle]
+        summary_vehicle += label.count(type_vehicle)
     text += f'Summary: {summary_vehicle}'
 
     output_image = draw_bbox(frame, bbox, label, conf)

@@ -13,7 +13,7 @@ with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
 bot = telegram.Bot(token=config['telegram_bot_tocken'])
-model = torch.hub.load('ultralytics/yolov5', 'yolov5m')
+model = torch.hub.load('ultralytics/yolov5', 'yolov5x')
 
 
 def send_message(msg):

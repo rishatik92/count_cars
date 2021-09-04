@@ -28,9 +28,6 @@ def send_image(image):
     bot.send_photo(config['chat_id'], image)
 
 
-send_message(f'starting system')
-
-
 # Конфигурация, которую будет использовать библиотека Mask-RCNN.
 class MaskRCNNConfig(mrcnn.config.Config):
     NAME = "coco_pretrained_model_config"

@@ -53,7 +53,7 @@ while video_capture.isOpened():
     frame = cam_cleaner.last_frame
 
     i +=1
-    bbox, label, conf = cv.detect_common_objects(frame, enable_gpu=True, model='yolov5')
+    bbox, label, conf = cv.detect_common_objects(frame, model='yolov5')
     frames_computed+=1
     debug_str = f'frames_computed: {frames_computed}'
     print(last_string_num * '\r' + debug_str, end='')

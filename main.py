@@ -60,6 +60,7 @@ while video_capture.isOpened():
     plt.savefig(img, format='png')  # save image in file-like object
     img.seek(0)
     send_image(img)
+    send_image(cv2.imencode('.jpeg', rgb)[1].tostring())
     send_message(f'''Number of cars in the image is {label.count('car')}
 frames_computed = {frames_computed}''')
 

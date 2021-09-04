@@ -56,6 +56,7 @@ while video_capture.isOpened():
 
 
     results = model(frame)
+    results.render()
     frames_computed+=1
     debug_str = f'frames_computed: {frames_computed}'
     print(last_string_num * '\r' + debug_str, end='')
@@ -66,7 +67,7 @@ while video_capture.isOpened():
         continue
 
     text = 'On the image: \n'
-    text += f'Results yolov5: {results}'
+    text += f'Results yolov5: {results.pred}'
     send_image(cv2.imencode('.jpeg', frame)[1].tostring())
     send_message(f"{text} frames_computed: {frames_computed}")
 

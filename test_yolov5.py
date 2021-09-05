@@ -12,7 +12,7 @@ from ruamel import yaml
 with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
-bot = telegram.Bot(token=config['telegram_bot_tocken'])
+bot = telegram.Bot(token=config['telegram_bot_token'])
 model = torch.hub.load('ultralytics/yolov5', 'yolov5x')
 
 

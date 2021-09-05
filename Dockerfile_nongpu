@@ -16,11 +16,11 @@ RUN pip3 install pyyaml
 RUN apt-get -o Acquire::Max-FutureTime=86400 install -y gnupg2
 
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
-RUN sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
+RUN mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
 RUN wget https://developer.download.nvidia.com/compute/cuda/11.4.0/local_installers/cuda-repo-wsl-ubuntu-11-4-local_11.4.0-1_amd64.deb
-RUN sudo dpkg -i cuda-repo-wsl-ubuntu-11-4-local_11.4.0-1_amd64.deb
-RUN sudo apt-key add /var/cuda-repo-wsl-ubuntu-11-4-local/7fa2af80.pub
-RUN sudo apt-get update
-RUN sudo apt-get -y install cuda
+RUN dpkg -i cuda-repo-wsl-ubuntu-11-4-local_11.4.0-1_amd64.deb
+RUN apt-key add /var/cuda-repo-wsl-ubuntu-11-4-local/7fa2af80.pub
+RUN apt-get update
+RUN apt-get -y install cuda
 
 CMD [ "python", "./find_place.py" ]

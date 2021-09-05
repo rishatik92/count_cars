@@ -12,7 +12,7 @@ from ruamel import yaml
 with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
-bot = telegram.Bot(token=config['telegram_bot_tocken'])
+bot = telegram.Bot(token=config['telegram_bot_token'])
 
 
 def send_message(msg):
@@ -53,7 +53,7 @@ while video_capture.isOpened():
     frame = cam_cleaner.last_frame
 
     i +=1
-    bbox, label, conf = cv.detect_common_objects(frame, model='yolov3')
+    bbox, label, conf = cv.detect_common_objects(frame, model='yolov3', use_gpu=True)
     frames_computed+=1
     debug_str = f'frames_computed: {frames_computed}'
     print(last_string_num * '\r' + debug_str, end='')

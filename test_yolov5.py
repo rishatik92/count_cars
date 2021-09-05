@@ -4,8 +4,6 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
 import cv2, threading, torch
-import cvlib as cv
-from cvlib.object_detection import draw_bbox
 import telegram
 from ruamel import yaml
 
@@ -13,7 +11,7 @@ with open('config.yaml') as cf:
     config = yaml.safe_load(cf.read())
 
 bot = telegram.Bot(token=config['telegram_bot_token'])
-model = torch.hub.load('ultralytics/yolov5', 'yolov5x')
+model = torch.hub.load('ultralytics/yolov5', 'yolov5x6')
 
 
 def send_message(msg):
@@ -54,7 +52,7 @@ while video_capture.isOpened():
 
     i += 1
 
-    results = model(frame)
+    results = model(frame, size = 1280)
     results.render()
 
     frames_computed += 1

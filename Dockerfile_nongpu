@@ -5,15 +5,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN mkdir -p /var/www
 WORKDIR /var/www
-
-RUN apt-get update
 RUN apt-get -o Acquire::Max-FutureTime=86400 install -y libglib2.0 git libgl1-mesa-glx wget libglib2.0
-
-RUN pip3 install ruamel.yaml opencv-python cvlib matplotlib tensorflow keras flask numpy ruamel.yaml tqdm seaborn Cython torch torchvision GitPython scikit-image python-telegram-bot tensorflow cvlib
-RUN pip3 install -U "git+git://github.com/lilohuang/PyTurboJPEG.git" "git+https://github.com/ria-com/modelhub-client.git" "git+https://github.com/akTwelve/Mask_RCNN.git"
-
-RUN pip3 install pyyaml
-RUN apt-get -o Acquire::Max-FutureTime=86400 install -y gnupg2
 
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
 RUN mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
@@ -22,5 +14,12 @@ RUN dpkg -i cuda-repo-wsl-ubuntu-11-4-local_11.4.0-1_amd64.deb
 RUN apt-key add /var/cuda-repo-wsl-ubuntu-11-4-local/7fa2af80.pub
 RUN apt-get update
 RUN apt-get -y install cuda
+
+
+RUN pip3 install ruamel.yaml cvlib matplotlib tensorflow keras flask numpy ruamel.yaml tqdm seaborn Cython torch torchvision GitPython scikit-image python-telegram-bot cvlib
+RUN pip3 install -U "git+git://github.com/lilohuang/PyTurboJPEG.git" "git+https://github.com/ria-com/modelhub-client.git" "git+https://github.com/akTwelve/Mask_RCNN.git"
+
+RUN pip3 install pyyaml
+RUN apt-get -o Acquire::Max-FutureTime=86400 install -y gnupg2
 
 CMD [ "python", "./find_place.py" ]

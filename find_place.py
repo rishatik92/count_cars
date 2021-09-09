@@ -17,7 +17,7 @@ with open('config.yaml') as cf:
 
 import telegram
 
-bot = telegram.Bot(token=config['telegram_bot_tocken'])
+bot = telegram.Bot(token=config['telegram_bot_token'])
 
 
 def send_message(msg):
